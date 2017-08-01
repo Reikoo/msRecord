@@ -6,5 +6,6 @@
 3. [profile in spring](http://www.baeldung.com/spring-profiles)
 4. [aop.xml location](https://stackoverflow.com/questions/9418001/how-does-aspectjs-load-time-weaver-find-meta-inf-aop-xml)
 4. [configure runner in tomcat instead of generic Java](https://stackoverflow.com/questions/35299844/how-can-i-log-private-methods-via-spring-aop)
+7. [aop proxy](http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/aop.html#aop-understanding-aop-proxies)
 
 [2](Ruijing.Gao@morganstanley.com)
