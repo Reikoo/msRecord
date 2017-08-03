@@ -7,5 +7,6 @@
 4. [aop.xml location](https://stackoverflow.com/questions/9418001/how-does-aspectjs-load-time-weaver-find-meta-inf-aop-xml)
 4. [configure runner in tomcat instead of generic Java](https://stackoverflow.com/questions/35299844/how-can-i-log-private-methods-via-spring-aop)
 7. [aop proxy](http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/aop.html#aop-understanding-aop-proxies)
+8. [aspect runs twice](https://stackoverflow.com/questions/29017011/aspect-using-pointcut-annotation-for-afterthrowing-is-running-twice/29017424)
 
 [2](Ruijing.Gao@morganstanley.com)
