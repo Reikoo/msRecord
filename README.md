@@ -9,7 +9,9 @@
 7. [aop proxy](http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/aop.html#aop-understanding-aop-proxies)
 8. [aspect runs twice](https://stackoverflow.com/questions/29017011/aspect-using-pointcut-annotation-for-afterthrowing-is-running-twice/29017424)
 
-[2](Ruijing.Gao@morganstanley.com)
+[2](Ruijing.Gao@morganstanley.com
+
+development: 缺点，指的是个人发展，有什么需要改进的，不用写项目相关的
 
 
 Background 
