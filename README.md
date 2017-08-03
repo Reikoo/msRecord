@@ -10,3 +10,14 @@
 8. [aspect runs twice](https://stackoverflow.com/questions/29017011/aspect-using-pointcut-annotation-for-afterthrowing-is-running-twice/29017424)
 
 [2](Ruijing.Gao@morganstanley.com)
+
+
+Background 
+Interaction
+  UI & Input
+  Output
+Location of the project
+About new type of calls
+Technology in generator
+
+
