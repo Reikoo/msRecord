@@ -1,0 +1,70 @@
+1
+hello everyone, today I want to introduce the test suite generation engine and demonstrate a demo of it.
+
+2
+First, I will introduce the background, including the reason why we want to build this generator and problems that the generator can solve. 
+Second, I will introduce the workflow and the interaction of the generator, including its workflow and how to use it. 
+Third, I will introduce others related with the generator, including the location of this project and what developers need to do when they add new calls in EAS base. 
+At last, I will introduce some fancy technology used in the generator, including AOP and javapoet. 
+
+3
+Ok, the first is the background. 
+
+4
+Currently, For those unit test in EAS which test front to end, they randomly failed since UAT data is unstable. If we mock all the db/soap, it takes a long time to write unit test code.
+So in order to solve these problems, we decide to build a tool to help us auto-generate mock code for a given unit test.
+And this tool will make writing unit test more efficient and make unit test more stable.
+
+5
+Then, I will introduce its workflow and the interaction.
+
+6
+here is the workflow of the generator. First, users need to write down the body of the test method, especially the requests that will be sent in unit test. 
+Then this file is input into the generator. The generator will build the requests and send them to the EAS base. We have added some aspects in EAS base and they are responsible for recording results of db calls and soap calls. 
+So when EAS receives requests, these aspects will check the status to determine whether to record calls. if it is, when EAS base is handling requests, the aspects will record calls at the same time and send them to the generator. 
+Then the generator will store these data in files and generate a test case on the basis of these files. All data in data files has already mocked in the test case. 
+At last, the generator will offer users this test case file and all data files. 
+
+7
+So to use this tool, users need to write down the requests. The picture on the right hand is an example of a test method. Users are required to write the requests part, which is in the block, and others, such as assertions, are not required. 
+
+8
+After writing the input file, users need to run the GUI in IDE, which is a java application. Users need to choose the input file in the left panel and click the button at the bottom of the right panel. Then the data files and the test case file will be generated and stored in the same folder with the input file.
+Let me show you the output file in eclipse IDE. 
+These two files store db calls and soap calls. Here is the file storing the response of a soap request. And here is the file storing all data fetching by db calls. And here is the test case file. The setup-part and teardown-part is auto-generated. 
+In the setup part, all calls have already mocked. We have replaced the sqlcorpeventexception in the context and mock db data in this file. When salcorpevent exeption invokes the method executeSql with a parameter, it will return a specific list. 
+Besides the db call, soap call are also mocked in the set-up part. The MessageSender will register a file for each request. When it sends request, it will directly use the response stored in files as a return. 
+
+9
+Besides how to use this generator, there are also some other things I'd like to introduce to you. 
+
+10
+The first is about the location of this project. This project is planed to build inside EAS base. It is because on the one hand, the generator needs to reuse functions in EAS base, such as sending soap requests and querying database. On the other hand, changes in EAS base may have an influence on the generator. Putting this project inside EAS base can help the generator to detect these changes.
+So the project needs to be inside EAS base. 
+
+11
+The second is about adding new types of calls. In order to support new db calls and soap calls, developers need to do some jobs when they add new calls. 
+If you want to add a new db call in EAS base, you need to add an annotation @RecordDBCall at the method executeSql(). This annotation will help aspects to recognize this new db call and store data from this new db call. 
+
+12
+If you want to add a new soap call in EAS base, you need to first extract codes about senders’ sending requests and put these codes into a method. And then add an annotation @RecordSoapCall at this method. 
+
+13
+At last, I want to introduce the technology used in the generator. 
+
+14
+In order to support the generator to store all data from db calls and soap calls, it needs to reconstruct the structure of EAS base, which is very risky. So in order to avoid these risks and increase modularity, the generator uses AOP to store data. It does so by adding additional behavior to existing code without modifying the code itself, instead separately specifying which code is modified via a specification
+An aspect contains two parts: one is the Advice, which specifies the addition behavior to existing codes. the other one is the pointcut, which specifies where to apply this addition behavior. 
+An aspect can execute before the method invocation, after the method invocation and both before and after the method invocation. 
+Spring has already provided a set of functions to support AOP. But this project decides to use AspectJ instead of Spring AOP. Because AspectJ is more powerful than Spring AOP. It has a full set of aspects and supports the generator to apply aspects to internal method calls and private methods, which Spring AOP doesn't support. 
+
+15
+In order to auto-generate more elegant codes and improve the efficiency of the development, the generator uses Javapoet to generate codes instead of appending loads of strings. javapoet is quite easy to use. It provides a lot of classes and methods to support code-generation. 
+Like this example. It create a method called main. It is a public static method. The return type is void and it has a String parameter. there is only one statement in the main method, just print a sentence: "hello javapoet". 
+Then it creates a class called helloworld. it is a public final class with a method main. 
+At last, it put this class in this package and write to the console. 
+The codes generated is like this picture. 
+It is quite easy to use. And if you need to auto-generate codes, I highly recommend you this Java API. 
+
+16
+That's all. Thanks for your listening. Do you have any questions?
