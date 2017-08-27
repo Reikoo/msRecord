@@ -1,0 +1,44 @@
+1
+Good afternoon, my name is Gao Ruijing from Nanjing University. I am an intern of equity swap trading. Today, I'd like to introduce my intern project, which is called Test Suite Generation Engine. It is used to geratate unit testCase templates for the EAS base system. 
+
+2
+There are three parts of my presentation. First, I will introduce the background of my intern project, including some background knowledge and the reason why we want to build this generation engine. 
+Second, I will introduce the workflow of the generation engine.
+At last, I will introduce some fancy technology used in the generator, including AOP, Mockito and javapoet. 
+
+6
+There exist some problems with unit test of EAS system. For those unit tests in EAS, which test front to end, they randomly failed since UAT data is not stable. So in order to avoid the influence of unstatble data, we consider to mock all test data in the test case. But here comes another problem. If we mock all test data, it takes a long time to write unit test codes. 
+For example, this is a test case about booking xxxxx funtion in EAS. There are 2000 lines in the testcase, but only 20 lines is about the test method and others are about mocking data. Developers have to write a lot of mock codes to test a single function, which is inefficient.  
+
+7.
+So to help developers to write test cases, we build this generation engine to auto-generate mock codes for a given unit test. Users only need to write the test method and the generation engine will generate a test case template and mock all related test data in the template .
+It can make writing unit test more efficient and make unit test more stable.
+
+9
+First, users need to write a simple test case, including the body of the test method. This is an example. In this test method, it defines a request and sends it to EAS system. After getting the response, it checks the correctness of the response.
+This simple test case file will be input into the generation engine. 
+This is the GUI. Users need to choose the input file in the left panel and click the button at the bottom of the right panel. 
+And then the engine will build the requests and send them to the EAS system. 
+In order to record db calls and soap calls and store test data, we have added two aspects in EAS system. 
+When EAS is handling requests, the aspects will record calls at the same time and send them to the generation engine. 
+Then the generator will store these data in files and use Javapoet API to generate a test case. All test data in data files has already been mocked in the test case. 
+At last, the generator will return users this test case file and all data files. These files will be put in the same folder with the input file.
+
+10
+The output files include data files and a test case file. 
+The data files include one java file, which stores all related DB data, and several XML files which store soap responses. 
+This is an example of a db data file. and This is an example of soap response file.
+This is an example of a generated test case. All data are mocked in the set-up part and unmock in the tear-down part. for example, When the executeSQl method is invoked, it will use this list instead of querying real database. 
+
+11
+At last, I want to introduce some fancy technologies used in the implementation. 
+
+12
+The generation engine uses AOP to record db calls and soap calls. It can add additional behaviors to existing codes without modifying the code itself. It can avoid reconstructing the structure of EAS system and increasing modularity of new codes. 
+The generation engine use AspectJ to implement aspects. It defines two annotations to specify where to invoke aspects and defines two aspects to record db calls and soap calls. 
+This is an example of recording db calls. the executeSQl method is annotated with this RecordDBCall annotation. when the method is invoked, it will query data from database. and The aspect will be executed. It will store the data queried from database before the executeSQl method returns queried results. 
+
+
+
+14
+That's all. Thanks for your listening. Do you have any questions?
